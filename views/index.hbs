@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="list raise">
+    <div class="list--header">
+      <h1>{{title}}</h1>
+    </div>
+    <div class="list--body">
+      <section class="list--overdue">
+        <h3 class="list--subheading">Overdue</h3>
+        <div class="list--tasks">
+          {{#each overdue}}
+            <div class="list--task raise raise--light">
+              {{this}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+      <section class="list--in-progress">
+        <h3 class="list--subheading">In Progress</h3>
+        <div class="list--tasks">
+          {{#each in_progress}}
+            <div class="list--task raise raise--light">
+              {{this}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+      <section class="list--completed">
+        <h3 class="list--subheading">Completed</h3>
+        <div class="list--tasks">
+          {{#each completed}}
+            <div class="list--task raise raise--light">
+              {{this}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
