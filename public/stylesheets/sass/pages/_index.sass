@@ -7,9 +7,28 @@
     padding: 1rem
     section + section
       margin-top: 2rem
+  &--new-task
+    margin-top: 0.5rem
+    display: flex
+    input
+      padding: 0.75rem 1rem
+      background-color: transparent
+      border: none
+      width: 100%
+      margin: 0
+      &::placeholder
+        color: $dark
+      &:focus
+        outline: none
+    button
+      flex-shrink: 0
   &--task
+    padding: 0.75rem 1rem
+    cursor: grab
+    font-size: 12px
     transition: 0.25s
     &__chosen
+      cursor: grabbing
       opacity: 0.5
   &--task + &--task
-    margin-top: 1rem
+    margin-top: 0.5rem
