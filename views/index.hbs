@@ -9,7 +9,7 @@
         <div class="list--tasks">
           {{#each overdue}}
             <div class="list--task raise raise--light">
-              {{this}}
+              {{this.task}}
             </div>
           {{/each}}
         </div>
@@ -19,12 +19,12 @@
         <div class="list--tasks">
           {{#each in_progress}}
             <div class="list--task raise raise--light">
-              {{this}}
+              {{this.task}}
             </div>
           {{/each}}
         </div>
-        <form class="list--new-task">
-          <input type="text" value="" placeholder="Add a New Task">
+        <form id="new-task" class="list--new-task">
+          <input type="text" name="task" value="" placeholder="Add a New Task">
           <button class="raise raise--light" type="submit" name="button">
             <i class="fal fa-plus-square"></i>
           </button>
@@ -35,7 +35,7 @@
         <div class="list--tasks">
           {{#each completed}}
             <div class="list--task raise raise--light">
-              {{this}}
+              {{this.task}}
             </div>
           {{/each}}
         </div>

@@ -4,23 +4,15 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const sassMiddleware = require("node-sass-middleware");
-const mysql = require("mysql");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 const port = process.env.PORT || 8080;
 
 // router
 const indexRouter = require("./routes/index");
+const apiRouter = require("./api");
 
 // init app
 const app = express();
-
-// mysql connection created
-const db = mysql.createConnection({
-  host: "127.0.0.1",
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASS,
-  database: "tisktask"
-});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -41,6 +33,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,7 +55,4 @@ app.listen(port, () => {
   console.log(`Server has started on port ${port}, start coding!`);
 });
 
-module.exports = {
-  app,
-  db
-};
+module.exports = app;
