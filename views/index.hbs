@@ -6,20 +6,46 @@
     <div class="list--body">
       <section class="list--overdue">
         <h3 class="list--subheading">Overdue</h3>
-        <div class="list--tasks">
+        <div class="list--tasks" id="overdue">
           {{#each overdue}}
             <div class="list--task raise raise--light">
-              {{this.task}}
+              <div class="list--task__name">
+                {{this.task}}
+              </div>
+              <div class="list--task__options">
+                <button class="raise raise--light" type="button" name="timer" title="Timer">
+                  <i class="fal fa-stopwatch"></i>
+                </button>
+                <button class="raise raise--light" type="button" name="complete" title="Complete">
+                  <i class="fal fa-check-square"></i>
+                </button>
+                <button class="raise raise--light" type="button" name="delete" title="Delete">
+                  <i class="fal fa-trash"></i>
+                </button>
+              </div>
             </div>
           {{/each}}
         </div>
       </section>
       <section class="list--in-progress">
         <h3 class="list--subheading">In Progress</h3>
-        <div class="list--tasks">
+        <div class="list--tasks" id="in-progress">
           {{#each in_progress}}
             <div class="list--task raise raise--light">
-              {{this.task}}
+              <div class="list--task__name">
+                {{this.task}}
+              </div>
+              <div class="list--task__options">
+                <button class="raise raise--light" type="button" name="timer" title="Timer">
+                  <i class="fal fa-stopwatch"></i>
+                </button>
+                <button class="raise raise--light" type="button" name="complete" title="Complete">
+                  <i class="fal fa-check-square"></i>
+                </button>
+                <button class="raise raise--light" type="button" name="delete" title="Delete">
+                  <i class="fal fa-trash"></i>
+                </button>
+              </div>
             </div>
           {{/each}}
         </div>
@@ -30,12 +56,22 @@
           </button>
         </form>
       </section>
-      <section class="list--completed">
+      <section class="list--complete">
         <h3 class="list--subheading">Completed</h3>
-        <div class="list--tasks">
+        <div class="list--tasks" id="complete">
           {{#each completed}}
             <div class="list--task raise raise--light">
-              {{this.task}}
+              <div class="list--task__name">
+                {{this.task}}
+              </div>
+              <div class="list--task__options">
+                <button class="raise raise--light" type="button" name="timer" title="Timer">
+                  <i class="fal fa-stopwatch"></i>
+                </button>
+                <button class="raise raise--light" type="button" name="delete" title="Delete">
+                  <i class="fal fa-trash"></i>
+                </button>
+              </div>
             </div>
           {{/each}}
         </div>

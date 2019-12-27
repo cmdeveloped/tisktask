@@ -14,6 +14,13 @@ h1, h2, h3, h4, h5, h6 {
   color: #58667c;
   margin: 0 0 0.5rem; }
 
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent; }
+  button + button {
+    margin-left: 0.5rem; }
+
 .container {
   max-width: 768px;
   width: 100%;
@@ -27,6 +34,8 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0.5em 0.5em 1em rgba(163, 177, 198, 0.5), -0.5em -0.5em 1em rgba(255, 255, 255, 0.5); }
   .raise--light {
     box-shadow: 0.25em 0.25em 0.5em rgba(163, 177, 198, 0.3), -0.25em -0.25em 0.5em rgba(255, 255, 255, 0.3); }
+    .raise--light[type=button] {
+      padding: 0.5rem; }
 
 .list--header {
   text-align: center; }
@@ -56,6 +65,9 @@ h1, h2, h3, h4, h5, h6 {
     flex-shrink: 0; }
 
 .list--task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 0.75rem 1rem;
   cursor: grab;
   font-size: 12px;
