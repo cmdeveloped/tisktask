@@ -13,6 +13,7 @@ $(document).ready(() => {
           ${task.task}
         </div>
         <div class="list--task__options">
+          <span class="timer"></span>
           <button
             data-id="${task.id}"
             class="raise raise--light"
@@ -43,7 +44,7 @@ $(document).ready(() => {
         </div>
       </div>
     `;
-    $(".list--in-progress .list--tasks").append(newTask);
+    $(".list--todo .list--tasks").append(newTask);
   };
 
   $("#new-task").submit(function(e) {
@@ -101,5 +102,59 @@ $(document).ready(() => {
     }).done(res => {
       $(`.list--task[data-id=${task_id}]`).prependTo("#complete");
     });
+  });
+  /*
+   * end of complete task
+   */
+
+  /*
+   * Start task timer
+   */
+  let setTimer;
+  let time;
+  $(document).on("click", "button[name=timer]", function() {
+    const that = $(this);
+    const task_id = that.data("id");
+    const timer = $(`.list--task[data-id=${task_id}]`)
+      .find(".timer")
+      .text();
+    let started = +that.attr("started");
+
+    let seconds = moment.duration(timer).asSeconds();
+    let date = new Date();
+
+    const tick = () => {
+      seconds++;
+      // construct readable time from seconds
+      time = moment(date)
+        .startOf("day")
+        .seconds(seconds)
+        .format("HH:mm:ss");
+
+      $(`.list--task[data-id=${task_id}]`)
+        .find(".timer")
+        .text(time);
+    };
+
+    const saveTaskTimer = time => {
+      $.ajax({
+        method: "put",
+        url: `/api/tasks/timer/${task_id}`,
+        data: {
+          time
+        }
+      });
+    };
+
+    if (started) {
+      that.attr("started", "0");
+      clearInterval(setTimer);
+      saveTaskTimer(time);
+    } else {
+      that.attr("started", "1");
+      setTimer = setInterval(function() {
+        tick();
+      }, 1000);
+    }
   });
 });

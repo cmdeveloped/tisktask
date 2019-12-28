@@ -2,47 +2,30 @@
   <div class="list raise">
     <div class="list--header">
       <h1>{{title}}</h1>
+      <h4>{{date}}</h4>
     </div>
     <div class="list--body">
-      <section class="list--overdue">
-        <h3 class="list--subheading">Overdue</h3>
-        <div class="list--tasks" id="overdue">
-          {{#each overdue}}
-            <div data-id="{{this.id}}" class="list--task raise raise--light">
+      <section class="list--todo">
+        <h3 class="list--subheading">Todo</h3>
+        <div class="list--tasks" id="todo">
+          {{#each todo}}
+            <div data-id="{{id}}" class="list--task raise raise--light">
               <div class="list--task__name">
-                {{this.task}}
+                {{task}}
               </div>
               <div class="list--task__options">
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="timer" title="Timer">
+                <span class="timer">
+                  {{#if timer}}
+                    {{timer}}
+                  {{/if}}
+                </span>
+                <button data-id="{{id}}" started="0" class="raise raise--light" type="button" name="timer" title="Timer">
                   <i class="fal fa-stopwatch"></i>
                 </button>
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="complete" title="Complete">
+                <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete">
                   <i class="fal fa-check-square"></i>
                 </button>
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="delete" title="Delete">
-                  <i class="fal fa-trash"></i>
-                </button>
-              </div>
-            </div>
-          {{/each}}
-        </div>
-      </section>
-      <section class="list--in-progress">
-        <h3 class="list--subheading">In Progress</h3>
-        <div class="list--tasks" id="in_progress">
-          {{#each in_progress}}
-            <div data-id="{{this.id}}" class="list--task raise raise--light">
-              <div class="list--task__name">
-                {{this.task}}
-              </div>
-              <div class="list--task__options">
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="timer" title="Timer">
-                  <i class="fal fa-stopwatch"></i>
-                </button>
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="complete" title="Complete">
-                  <i class="fal fa-check-square"></i>
-                </button>
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="delete" title="Delete">
+                <button data-id="{{id}}" class="raise raise--light" type="button" name="delete" title="Delete">
                   <i class="fal fa-trash"></i>
                 </button>
               </div>
@@ -56,22 +39,55 @@
           </button>
         </form>
       </section>
+      <section class="list--in-progress">
+        <h3 class="list--subheading">In Progress</h3>
+        <div class="list--tasks" id="in_progress">
+          {{#each in_progress}}
+            <div data-id="{{id}}" class="list--task raise raise--light">
+              <div class="list--task__name">
+                {{task}}
+              </div>
+              <div class="list--task__options">
+                <span class="timer">
+                  {{#if timer}}
+                    {{timer}}
+                  {{/if}}
+                </span>
+                <button data-id="{{id}}" started="0" class="raise raise--light" type="button" name="timer" title="Timer">
+                  <i class="fal fa-stopwatch"></i>
+                </button>
+                <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete">
+                  <i class="fal fa-check-square"></i>
+                </button>
+                <button data-id="{{id}}" class="raise raise--light" type="button" name="delete" title="Delete">
+                  <i class="fal fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </section>
       <section class="list--complete">
         <h3 class="list--subheading">Completed</h3>
         <div class="list--tasks" id="complete">
           {{#each complete}}
-            <div data-id="{{this.id}}" class="list--task raise raise--light">
+            <div data-id="{{id}}" class="list--task raise raise--light">
               <div class="list--task__name">
-                {{this.task}}
+                {{task}}
               </div>
               <div class="list--task__options">
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="timer" title="Timer">
+                <span class="timer">
+                  {{#if timer}}
+                    {{timer}}
+                  {{/if}}
+                </span>
+                <button data-id="{{id}}" started="0" class="raise raise--light" type="button" name="timer" title="Timer">
                   <i class="fal fa-stopwatch"></i>
                 </button>
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="complete" title="Complete">
+                <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete">
                   <i class="fal fa-check-square"></i>
                 </button>
-                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="delete" title="Delete">
+                <button data-id="{{id}}" class="raise raise--light" type="button" name="delete" title="Delete">
                   <i class="fal fa-trash"></i>
                 </button>
               </div>

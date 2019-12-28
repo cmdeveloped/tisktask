@@ -30,14 +30,22 @@
     cursor: grab
     font-size: 12px
     transition: 0.25s
+    &__options
+      span
+        display: inline-block
+        margin-right: 0.5rem
     &__chosen
       cursor: grabbing
       opacity: 0.5
   &--task + &--task
     margin-top: 0.5rem
-  &--complete
-    #complete
-      .list--task__name
-        text-decoration: line-through
-      button[name=timer], button[name=complete]
-        display: none
+
+#todo
+  .timer, button[name=timer]
+    display: none
+
+#complete
+  .list--task__name
+    text-decoration: line-through
+  button[name=timer], button[name=complete], button[name=due_date]
+    display: none

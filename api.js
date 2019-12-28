@@ -41,7 +41,7 @@ router.put("/tasks/update", (req, res) => {
 // complete tasks route
 router.put("/tasks/complete/:id", (req, res) => {
   let task = req.params.id;
-  let query = `update tasks set status = 'complete', list_id = 0, completed_at = NOW() where id=${task}`;
+  let query = `update tasks set status = 'complete', list_id = 0, completed_at = NOW() where id = ${task}`;
   db.query(query, (err, result) => {
     if (err) throw err;
     res.json({
@@ -51,10 +51,25 @@ router.put("/tasks/complete/:id", (req, res) => {
   });
 });
 
+// save task timer route
+router.put("/tasks/timer/:id", (req, res) => {
+  let task = req.params.id;
+  let time = req.body.time;
+  time = time.split(":").join("");
+  let query = `update tasks set timer = ${time} where id = ${task}`;
+  db.query(query, (err, result) => {
+    if (err) throw err;
+    res.json({
+      success: true,
+      message: "Successfully updated timer."
+    });
+  });
+});
+
 // delete tasks route
 router.delete("/tasks/delete/:id", (req, res) => {
   let task = req.params.id;
-  let query = `update tasks set deleted_at = NOW() where id=${task}`;
+  let query = `update tasks set deleted_at = NOW() where id = ${task}`;
   db.query(query, (err, result) => {
     if (err) throw err;
     res.json({

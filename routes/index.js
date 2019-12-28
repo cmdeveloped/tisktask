@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { db } = require("../mysql");
+const moment = require("moment");
 
 // filter tasks by status and list index
 let filterTasks = (rows, status) => {
@@ -16,12 +17,13 @@ let filterTasks = (rows, status) => {
 /* GET home page. */
 router.get("/", function(req, res, next) {
   db.query("select * from tasks where deleted_at is null", (err, rows) => {
-    let overdue = filterTasks(rows, "overdue");
+    let todo = filterTasks(rows, "todo");
     let in_progress = filterTasks(rows, "in_progress");
     let complete = filterTasks(rows, "complete");
     res.render("index", {
       title: "tisk task",
-      overdue,
+      date: moment().format("LL"),
+      todo,
       in_progress,
       complete
     });

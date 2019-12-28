@@ -72,6 +72,9 @@ button {
   cursor: grab;
   font-size: 12px;
   transition: 0.25s; }
+  .list--task__options span {
+    display: inline-block;
+    margin-right: 0.5rem; }
   .list--task__chosen {
     cursor: grabbing;
     opacity: 0.5; }
@@ -79,10 +82,13 @@ button {
 .list--task + .list--task {
   margin-top: 0.5rem; }
 
-.list--complete #complete .list--task__name {
+#todo .timer, #todo button[name=timer] {
+  display: none; }
+
+#complete .list--task__name {
   text-decoration: line-through; }
 
-.list--complete #complete button[name=timer], .list--complete #complete button[name=complete] {
+#complete button[name=timer], #complete button[name=complete], #complete button[name=due_date] {
   display: none; }
 
 /*# sourceMappingURL=style.css.map */
