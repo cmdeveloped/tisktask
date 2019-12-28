@@ -10,7 +10,11 @@
           <h3 class="list--subheading">{{title}}</h3>
           <div class="list--tasks" id="{{@key}}">
             {{#each tasks}}
-              <div data-id="{{id}}" class="list--task raise raise--light">
+              <div
+                data-id="{{id}}"
+                data-complete="{{completed_at}}"
+                class="list--task raise raise--light"
+              >
                 <div class="list--task__name">
                   {{task}}
                 </div>

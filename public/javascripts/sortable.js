@@ -3,26 +3,31 @@ $(document).ready(() => {
 
   const updateTasks = (to, from) => {
     let tasks = [];
-    // add list of tasks — 'to' list
-    if (to !== from) {
-      $(`#${to}`)
+
+    const addTasks = list => {
+      $(`#${list}`)
         .find(".list--task")
         .map((idx, task) => {
           let id = $(task).data("id");
           let list_id = idx;
-          let status = to;
-          tasks.push(`( ${id}, '${status}', ${list_id} )`);
+          let status = list;
+          let completed_at = $(task).data("complete")
+            ? list === "complete"
+              ? `'${moment($(task).data("complete")).format(
+                  "YYYY-MM-DD HH:mm:ss"
+                )}'`
+              : null
+            : null;
+          tasks.push(`( ${id}, '${status}', ${list_id}, ${completed_at} )`);
         });
+    };
+
+    // add list of tasks — 'to' list
+    if (to !== from) {
+      addTasks(to);
     }
     // add list of tasks — 'from' list
-    $(`#${from}`)
-      .find(".list--task")
-      .map((idx, task) => {
-        let id = $(task).data("id");
-        let list_id = idx;
-        let status = from;
-        tasks.push(`( ${id}, '${status}', ${list_id} )`);
-      });
+    addTasks(from);
 
     // batch update
     $.ajax({
@@ -32,7 +37,11 @@ $(document).ready(() => {
         tasks: JSON.stringify(tasks)
       }
     }).done(res => {
-      // some sort of modal
+      $("#todo, #in_progress")
+        .find(".list--task")
+        .each(function() {
+          $(this).attr("data-complete", "");
+        });
     });
   };
 

@@ -80,7 +80,10 @@ $(document).ready(() => {
     if (check) {
       $.ajax({
         method: "delete",
-        url: `/api/tasks/delete/${task_id}`
+        url: "/api/tasks/delete",
+        data: {
+          task_id
+        }
       }).done(res => {
         $(`.list--task[data-id=${task_id}]`).remove();
       });

@@ -28,7 +28,7 @@ router.post("/tasks/new", (req, res, next) => {
 router.put("/tasks/update", (req, res) => {
   let tasks = req.body.tasks;
   let values = JSON.parse(tasks).join(",");
-  let query = `insert into tasks (id, status, list_id) values ${values} on duplicate key update status=values(status), list_id=values(list_id)`;
+  let query = `insert into tasks (id, status, list_id, completed_at) values ${values} on duplicate key update status=values(status), list_id=values(list_id), completed_at=values(completed_at)`;
   db.query(query, (err, result) => {
     if (err) throw err;
     res.json({
@@ -67,9 +67,12 @@ router.put("/tasks/timer/:id", (req, res) => {
 });
 
 // delete tasks route
-router.delete("/tasks/delete/:id", (req, res) => {
-  let task = req.params.id;
-  let query = `update tasks set deleted_at = NOW() where id = ${task}`;
+router.delete("/tasks/delete", (req, res) => {
+  let task = req.body.task_id;
+  let tasks = req.body.tasks;
+  let ids = task ? task : tasks;
+
+  let query = `update tasks set deleted_at = NOW() where id in (${ids})`;
   db.query(query, (err, result) => {
     if (err) throw err;
     res.json({
