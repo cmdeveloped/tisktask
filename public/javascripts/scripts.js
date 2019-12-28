@@ -120,7 +120,7 @@ $(document).ready(() => {
       .text();
     let started = +that.attr("started");
 
-    let seconds = moment.duration(timer).asSeconds();
+    let seconds = moment.duration($.trim(timer)).asSeconds();
     let date = new Date();
 
     const tick = () => {

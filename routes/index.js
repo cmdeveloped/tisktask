@@ -23,9 +23,22 @@ router.get("/", function(req, res, next) {
     res.render("index", {
       title: "tisk task",
       date: moment().format("LL"),
-      todo,
-      in_progress,
-      complete
+      lists: {
+        todo: {
+          title: "Todo",
+          tasks: todo,
+          // form attribute because I don't want to install helpers
+          form: true
+        },
+        in_progress: {
+          title: "In Progress",
+          tasks: in_progress
+        },
+        complete: {
+          title: "Complete",
+          tasks: complete
+        }
+      }
     });
   });
 });
