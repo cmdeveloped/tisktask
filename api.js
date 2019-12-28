@@ -4,7 +4,7 @@ const { db } = require("./mysql");
 
 // requery all tasks and return as json
 let resetTasks = res => {
-  let query = "select * from tasks";
+  let query = "select * from tasks where deleted_at is null";
   db.query(query, (err, result) => {
     if (err) throw err;
     let last = result.length - 1;
@@ -41,7 +41,7 @@ router.put("/tasks/update", (req, res) => {
 // complete tasks route
 router.put("/tasks/complete/:id", (req, res) => {
   let task = req.params.id;
-  let query = `update tasks set status = 'complete' where id=${task}`;
+  let query = `update tasks set status = 'complete', list_id = 0, completed_at = NOW() where id=${task}`;
   db.query(query, (err, result) => {
     if (err) throw err;
     res.json({
@@ -54,7 +54,7 @@ router.put("/tasks/complete/:id", (req, res) => {
 // delete tasks route
 router.delete("/tasks/delete/:id", (req, res) => {
   let task = req.params.id;
-  let query = `delete from tasks where id=${task}`;
+  let query = `update tasks set deleted_at = NOW() where id=${task}`;
   db.query(query, (err, result) => {
     if (err) throw err;
     res.json({

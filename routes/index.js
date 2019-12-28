@@ -6,12 +6,16 @@ const { db } = require("../mysql");
 let filterTasks = (rows, status) => {
   return rows
     .filter(t => t.status === status)
-    .sort((a, b) => a.list_id - b.list_id);
+    .sort((a, b) => {
+      status === "complete"
+        ? a.completed_at - b.completed_at
+        : a.list_id - b.list_id;
+    });
 };
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  db.query("select * from tasks", (err, rows) => {
+  db.query("select * from tasks where deleted_at is null", (err, rows) => {
     let overdue = filterTasks(rows, "overdue");
     let in_progress = filterTasks(rows, "in_progress");
     let complete = filterTasks(rows, "complete");

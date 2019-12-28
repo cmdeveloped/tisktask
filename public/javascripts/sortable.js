@@ -37,8 +37,11 @@ $(document).ready(() => {
   };
 
   for (list of lists) {
+    let id = $(list).attr("id");
+    let put = id === "complete" ? false : true;
+
     Sortable.create(list, {
-      group: "tasks",
+      group: { name: "tasks", put },
       chosenClass: "list--task__chosen",
       onEnd: evt => {
         let to = $(evt.to).attr("id");
