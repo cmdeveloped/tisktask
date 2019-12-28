@@ -82,8 +82,24 @@ $(document).ready(() => {
         url: `/api/tasks/delete/${task_id}`
       }).done(res => {
         $(`.list--task[data-id=${task_id}]`).remove();
-        console.log(res);
       });
     }
+  });
+  /*
+   * end of delete task
+   */
+
+  /*
+   * Complete task
+   */
+  $(document).on("click", "button[name=complete]", function() {
+    let task_id = $(this).data("id");
+
+    $.ajax({
+      method: "put",
+      url: `/api/tasks/complete/${task_id}`
+    }).done(res => {
+      $(`.list--task[data-id=${task_id}]`).prependTo("#complete");
+    });
   });
 });

@@ -29,7 +29,7 @@
       </section>
       <section class="list--in-progress">
         <h3 class="list--subheading">In Progress</h3>
-        <div class="list--tasks" id="in-progress">
+        <div class="list--tasks" id="in_progress">
           {{#each in_progress}}
             <div data-id="{{this.id}}" class="list--task raise raise--light">
               <div class="list--task__name">
@@ -59,7 +59,7 @@
       <section class="list--complete">
         <h3 class="list--subheading">Completed</h3>
         <div class="list--tasks" id="complete">
-          {{#each completed}}
+          {{#each complete}}
             <div data-id="{{this.id}}" class="list--task raise raise--light">
               <div class="list--task__name">
                 {{this.task}}
@@ -67,6 +67,9 @@
               <div class="list--task__options">
                 <button data-id="{{this.id}}" class="raise raise--light" type="button" name="timer" title="Timer">
                   <i class="fal fa-stopwatch"></i>
+                </button>
+                <button data-id="{{this.id}}" class="raise raise--light" type="button" name="complete" title="Complete">
+                  <i class="fal fa-check-square"></i>
                 </button>
                 <button data-id="{{this.id}}" class="raise raise--light" type="button" name="delete" title="Delete">
                   <i class="fal fa-trash"></i>

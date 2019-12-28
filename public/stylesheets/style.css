@@ -79,4 +79,10 @@ button {
 .list--task + .list--task {
   margin-top: 0.5rem; }
 
+.list--complete #complete .list--task__name {
+  text-decoration: line-through; }
+
+.list--complete #complete button[name=complete] {
+  display: none; }
+
 /*# sourceMappingURL=style.css.map */

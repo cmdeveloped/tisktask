@@ -35,3 +35,9 @@
       opacity: 0.5
   &--task + &--task
     margin-top: 0.5rem
+  &--complete
+    #complete
+      .list--task__name
+        text-decoration: line-through
+      button[name=complete]
+        display: none
