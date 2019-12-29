@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const sassMiddleware = require("node-sass-middleware");
 const dotenv = require("dotenv").config();
-// const db = require('./mysql');
+const { cron, db } = require("./mysql");
 const port = process.env.PORT || 8080;
 
 // router

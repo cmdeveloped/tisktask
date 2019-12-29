@@ -20,9 +20,15 @@ router.get("/", function(req, res, next) {
     let todo = filterTasks(rows, "todo");
     let in_progress = filterTasks(rows, "in_progress");
     let complete = filterTasks(rows, "complete");
+    let week = `${moment()
+      .startOf("week")
+      .format("MMM DD")} - ${moment()
+      .endOf("week")
+      .format("MMM DD YYYY")}`;
     res.render("index", {
       title: "tisk task",
-      date: moment().format("LL"),
+      week,
+      date: moment().format("dddd, MMMM DD"),
       lists: {
         todo: {
           title: "Todo",
