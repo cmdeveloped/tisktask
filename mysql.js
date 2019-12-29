@@ -2,14 +2,23 @@ const dotenv = require("dotenv").config();
 const mysql = require("mysql");
 const cron = require("node-cron");
 const moment = require("moment");
+const creds =
+  process.env.NODE_ENV === "PROD"
+    ? {
+        host: process.env.PROD_HOST,
+        user: process.env.PROD_USER,
+        password: process.env.PROD_PASS,
+        database: process.env.PROD_DB
+      }
+    : {
+        host: process.env.DEV_HOST,
+        user: process.env.DEV_USER,
+        password: process.env.DEV_PASS,
+        database: process.env.DEV_DB
+      };
 
 // mysql connection created
-const db = mysql.createConnection({
-  host: "localhost",
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASS,
-  database: "tisktask"
-});
+const db = mysql.createConnection(creds);
 
 db.connect(err => {
   if (err) throw err;
