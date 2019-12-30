@@ -4,12 +4,7 @@ const cron = require("node-cron");
 const moment = require("moment");
 const creds =
   process.env.NODE_ENV === "production"
-    ? {
-        host: process.env.PROD_HOST,
-        user: process.env.PROD_USER,
-        password: process.env.PROD_PASS,
-        database: process.env.PROD_DB
-      }
+    ? process.env.JAWSDB_URL
     : {
         host: process.env.DEV_HOST,
         user: process.env.DEV_USER,
