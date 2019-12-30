@@ -3,7 +3,7 @@ const mysql = require("mysql");
 const cron = require("node-cron");
 const moment = require("moment");
 const creds =
-  process.env.NODE_ENV === "PROD"
+  process.env.NODE_ENV === "production"
     ? {
         host: process.env.PROD_HOST,
         user: process.env.PROD_USER,
