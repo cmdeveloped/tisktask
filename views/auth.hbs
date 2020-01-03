@@ -1,0 +1,37 @@
+<div id="auth" class="container">
+  <div class="auth">
+    <div class="raise">
+      {{#if auth}}
+        <div class="form">
+          <h2 class="form__title">tisk task</h2>
+          <h1 class="form__title">login</h1>
+          <form id="login-form" method="post">
+            <input type="email" name="email" placeholder="Email address" value="">
+            <input type="password" name="new-password" placeholder="Password" value="">
+            <div class="actions">
+              <a href="/register">
+                <button class="raise raise--light" type="button" name="button">Register</button>
+              </a>
+              <button class="raise raise--light" type="submit" name="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      {{else}}
+        <div class="form">
+          <h2 class="form__title">tisk task</h2>
+          <h1 class="form__title">register</h1>
+          <form id="register-form" action="/register/verify" method="post">
+            <input type="email" name="email" placeholder="Email address" value="">
+            <input type="password" name="new-password" placeholder="New Password" value="">
+            <div class="actions">
+              <a href="/login">
+                <button class="raise raise--light" type="button" name="button">Login</button>
+              </a>
+              <button class="raise raise--light" type="submit" name="submit">Register</button>
+            </div>
+          </form>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

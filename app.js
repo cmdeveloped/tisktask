@@ -10,6 +10,8 @@ const port = process.env.PORT || 8080;
 
 // router
 const indexRouter = require("./routes/index");
+const loginRouter = require("./routes/login");
+const registerRouter = require("./routes/register");
 const apiRouter = require("./api");
 
 // init app
@@ -34,6 +36,8 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/login", loginRouter);
+app.use("/register", registerRouter);
 app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler

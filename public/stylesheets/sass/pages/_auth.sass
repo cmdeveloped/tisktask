@@ -1,0 +1,37 @@
+#auth
+  display: flex
+  align-items: center
+  justify-content: center
+  .auth
+    width: 100%
+
+.form
+  &__title
+    text-align: center
+    margin: 1rem 0
+
+#login-form,
+#register-form
+  input
+    padding: 0.75rem 1rem
+    background-color: transparent
+    border: none
+    width: 100%
+    margin: 0
+    &::placeholder
+      color: $dark
+    &:focus
+      outline: none
+    & + input
+      margin-top: 1rem
+  .actions
+    margin-top: 1rem
+    display: flex
+  [type=submit]
+    color: $dark
+    width: 100%
+    margin-left: 1rem
+  [type=button]
+    padding: 1rem 2rem
+    color: $dark
+    flex-shrink: 0

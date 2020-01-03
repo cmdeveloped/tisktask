@@ -5,7 +5,10 @@ body {
   padding: 50px;
   font: 14px "Source Sans Pro", Helvetica, Arial, sans-serif;
   background-color: #e0e5ec;
-  color: #58667c; }
+  color: #58667c;
+  min-height: 100vh;
+  margin: 0;
+  display: flex; }
 
 a {
   color: #00B7FF; }
@@ -24,7 +27,8 @@ button {
 .container {
   max-width: 768px;
   width: 100%;
-  margin: 0 auto; }
+  margin: 0 auto;
+  flex: 1; }
 
 .raise {
   padding: 1rem;
@@ -90,5 +94,50 @@ button {
 
 #complete button[name=timer], #complete button[name=complete], #complete button[name=due_date] {
   display: none; }
+
+#auth {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  #auth .auth {
+    width: 100%; }
+
+.form__title {
+  text-align: center;
+  margin: 1rem 0; }
+
+#login-form input,
+#register-form input {
+  padding: 0.75rem 1rem;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  margin: 0; }
+  #login-form input::placeholder,
+  #register-form input::placeholder {
+    color: #58667c; }
+  #login-form input:focus,
+  #register-form input:focus {
+    outline: none; }
+  #login-form input + input,
+  #register-form input + input {
+    margin-top: 1rem; }
+
+#login-form .actions,
+#register-form .actions {
+  margin-top: 1rem;
+  display: flex; }
+
+#login-form [type=submit],
+#register-form [type=submit] {
+  color: #58667c;
+  width: 100%;
+  margin-left: 1rem; }
+
+#login-form [type=button],
+#register-form [type=button] {
+  padding: 1rem 2rem;
+  color: #58667c;
+  flex-shrink: 0; }
 
 /*# sourceMappingURL=style.css.map */

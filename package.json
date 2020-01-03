@@ -7,6 +7,7 @@
     "dev": "NODE_ENV=development nodemon app.js"
   },
   "dependencies": {
+    "bcrypt": "^3.0.7",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
@@ -19,6 +20,8 @@
     "mysql": "^2.17.1",
     "node-cron": "^2.0.3",
     "node-sass-middleware": "0.11.0",
+    "nodemailer": "^6.4.2",
+    "randomstring": "^1.1.5",
     "sortablejs": "^1.10.2"
   }
 }
