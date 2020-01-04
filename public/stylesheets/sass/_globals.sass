@@ -25,3 +25,9 @@ button
   background-color: transparent
   & + button
     margin-left: 0.5rem
+
+input, button
+  transition: 0.25s
+  &:focus
+    outline: none
+    box-shadow: 0.1em 0.1em 0.2em rgba($light-300, 0.2), -0.1em -0.1em 0.2em rgba($white, 0.2)

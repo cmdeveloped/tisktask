@@ -1,9 +1,12 @@
-#auth
+#auth, #verify
   display: flex
   align-items: center
   justify-content: center
-  .auth
+  .auth, .verify
     width: 100%
+  .error
+    text-align: center
+    margin: 1rem 0 0
 
 .form
   &__title
@@ -35,3 +38,18 @@
     padding: 1rem 2rem
     color: $dark
     flex-shrink: 0
+
+#verify-form
+  .code
+    display: flex
+    align-items: center
+    justify-content: center
+    margin: 2rem 0 3rem
+    input
+      width: calc((100% / 10) - 1rem)
+      text-align: center
+      & + input
+        margin-left: 0.5rem
+  [type=submit]
+    color: $dark
+    width: 100%

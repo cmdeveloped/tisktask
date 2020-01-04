@@ -20,7 +20,7 @@
         <div class="form">
           <h2 class="form__title">tisk task</h2>
           <h1 class="form__title">register</h1>
-          <form id="register-form" action="/register/verify" method="post">
+          <form id="register-form" action="/register" method="post">
             <input type="email" name="email" placeholder="Email address" value="">
             <input type="password" name="new-password" placeholder="New Password" value="">
             <div class="actions">
@@ -31,6 +31,9 @@
             </div>
           </form>
         </div>
+      {{/if}}
+      {{#if error}}
+        <p class="error">{{error}}</p>
       {{/if}}
     </div>
   </div>

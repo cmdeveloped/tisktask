@@ -1,6 +1,22 @@
 <div id="verify" class="container">
-  <div class="verify">
-    <h2>tisk task</h2>
-    <h1>account verification</h1>
+  <div class="verify raise">
+    <div class="form">
+      <form id="verify-form" action="/register/verify" method="post">
+        <div class="form__title">
+          <h2>tisk task</h2>
+          <h1>account verification</h1>
+          <p>Please enter your 6 digit verification code.</p>
+        </div>
+        <div class="code">
+          <input class="raise raise--light" type="text" name="first" maxlength="1" value="">
+          <input class="raise raise--light" type="text" name="second" maxlength="1" value="">
+          <input class="raise raise--light" type="text" name="third" maxlength="1" value="">
+          <input class="raise raise--light" type="text" name="fourth" maxlength="1" value="">
+          <input class="raise raise--light" type="text" name="fifth" maxlength="1" value="">
+          <input class="raise raise--light" type="text" name="sixth" maxlength="1" value="">
+        </div>
+        <button type="submit" class="raise raise--light" name="button">Verify</button>
+      </form>
+    </div>
   </div>
 </div>

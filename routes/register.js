@@ -24,7 +24,7 @@ router.get("/", (req, res, next) => {
 });
 
 // '/register/verify' router — register form submission
-router.post("/verify", (req, res, next) => {
+router.post("/", (req, res, next) => {
   const userEmail = req.body["email"];
   const userPass = req.body["new-password"];
   // generate a random 6 digit Verification code
@@ -37,9 +37,23 @@ router.post("/verify", (req, res, next) => {
   bcrypt.hash(userPass, 10, function(err, hash) {
     if (err) throw err;
     db.query(
-      `insert into users (email, password, auth_code) values ('${userEmail}', '${hash}', '${code}')`,
+      `select id, email from users where email = '${userEmail}'`,
       (err, result) => {
         if (err) throw err;
+        if (result.length) {
+          res.render("auth", {
+            auth: 0,
+            error: "This email address is already in use."
+          });
+        } else {
+          db.query(
+            `insert into users (email, password, auth_code) values ('${userEmail}', '${hash}', '${code}')`,
+            (err, result) => {
+              if (err) throw err;
+              console.log("New user has been added.");
+            }
+          );
+        }
       }
     );
   });
@@ -58,9 +72,13 @@ router.post("/verify", (req, res, next) => {
       err.status = 500;
       next(err);
     } else {
-      res.render("verify");
+      res.redirect(`/register/verify?email=${userEmail}`);
     }
   });
+});
+
+router.get("/verify", (req, res, next) => {
+  res.render("verify");
 });
 
 module.exports = router;

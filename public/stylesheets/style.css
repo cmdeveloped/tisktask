@@ -24,6 +24,12 @@ button {
   button + button {
     margin-left: 0.5rem; }
 
+input, button {
+  transition: 0.25s; }
+  input:focus, button:focus {
+    outline: none;
+    box-shadow: 0.1em 0.1em 0.2em rgba(163, 177, 198, 0.2), -0.1em -0.1em 0.2em rgba(255, 255, 255, 0.2); }
+
 .container {
   max-width: 768px;
   width: 100%;
@@ -95,12 +101,15 @@ button {
 #complete button[name=timer], #complete button[name=complete], #complete button[name=due_date] {
   display: none; }
 
-#auth {
+#auth, #verify {
   display: flex;
   align-items: center;
   justify-content: center; }
-  #auth .auth {
+  #auth .auth, #auth .verify, #verify .auth, #verify .verify {
     width: 100%; }
+  #auth .error, #verify .error {
+    text-align: center;
+    margin: 1rem 0 0; }
 
 .form__title {
   text-align: center;
@@ -139,5 +148,20 @@ button {
   padding: 1rem 2rem;
   color: #58667c;
   flex-shrink: 0; }
+
+#verify-form .code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0 3rem; }
+  #verify-form .code input {
+    width: calc((100% / 10) - 1rem);
+    text-align: center; }
+    #verify-form .code input + input {
+      margin-left: 0.5rem; }
+
+#verify-form [type=submit] {
+  color: #58667c;
+  width: 100%; }
 
 /*# sourceMappingURL=style.css.map */
