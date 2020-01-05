@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const sassMiddleware = require("node-sass-middleware");
+const session = require("express-session");
 const dotenv = require("dotenv").config();
 const { cron, db } = require("./mysql");
 const port = process.env.PORT || 8080;
@@ -16,6 +17,15 @@ const apiRouter = require("./api");
 
 // init app
 const app = express();
+
+app.use(
+  session({
+    secret: process.env.APP_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    user: false
+  })
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

@@ -50,6 +50,7 @@ router.post("/", (req, res, next) => {
             `insert into users (email, password, auth_code) values ('${userEmail}', '${hash}', '${code}')`,
             (err, result) => {
               if (err) throw err;
+              req.session.user = { id: responseId, email: userEmail };
               console.log("New user has been added.");
             }
           );
@@ -72,13 +73,33 @@ router.post("/", (req, res, next) => {
       err.status = 500;
       next(err);
     } else {
-      res.redirect(`/register/verify?email=${userEmail}`);
+      res.redirect(`/register/verify`);
     }
   });
 });
 
 router.get("/verify", (req, res, next) => {
   res.render("verify");
+});
+
+router.post("/verify", (req, res, next) => {
+  const code = req.body.code.join("");
+  const user = req.session.user;
+  db.query(
+    `select id, email, auth_code from users where email = '${user.email}'`,
+    (err, result) => {
+      if (err) throw err;
+
+      const id = result[0].id;
+      const auth_code = result[0].auth_code;
+      if (+code === +auth_code) {
+        db.query(`update users set verified = 1 where id = ${id}`);
+        res.redirect("/");
+      } else {
+        res.render("verify", { error: "Verification token was incorrect." });
+      }
+    }
+  );
 });
 
 module.exports = router;
