@@ -30,6 +30,7 @@ router.post("/", (req, res, next) => {
       // if they do match
       req.session.user = { id: user.id, email: user.email };
       res.redirect("/");
+      return;
     });
   });
 });

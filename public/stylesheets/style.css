@@ -95,6 +95,18 @@ input, button {
 #todo .timer, #todo button[name=timer] {
   display: none; }
 
+#in_progress button[started="0"] .fa-stopwatch {
+  display: inline-block; }
+
+#in_progress button[started="0"] .fa-pause {
+  display: none; }
+
+#in_progress button[started="1"] .fa-stopwatch {
+  display: none; }
+
+#in_progress button[started="1"] .fa-pause {
+  display: inline-block; }
+
 #complete .list--task__name {
   text-decoration: line-through; }
 

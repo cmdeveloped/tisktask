@@ -44,6 +44,18 @@
   .timer, button[name=timer]
     display: none
 
+#in_progress
+  button[started="0"]
+    .fa-stopwatch
+      display: inline-block
+    .fa-pause
+      display: none
+  button[started="1"]
+    .fa-stopwatch
+      display: none
+    .fa-pause
+      display: inline-block
+
 #complete
   .list--task__name
     text-decoration: line-through

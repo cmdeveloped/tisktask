@@ -20,6 +20,7 @@ router.get("/", function(req, res, next) {
   const user = req.session.user;
   if (!user) {
     res.redirect("/login");
+    return;
   }
 
   // if user logged in, grab their tasks

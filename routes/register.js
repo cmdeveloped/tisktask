@@ -74,6 +74,7 @@ router.post("/", (req, res, next) => {
       next(err);
     } else {
       res.redirect(`/register/verify`);
+      return;
     }
   });
 });
@@ -95,6 +96,7 @@ router.post("/verify", (req, res, next) => {
       if (+code === +auth_code) {
         db.query(`update users set verified = 1 where id = ${id}`);
         res.redirect("/");
+        return;
       } else {
         res.render("verify", { error: "Verification token was incorrect." });
       }
