@@ -15,9 +15,10 @@ let resetTasks = res => {
 
 // add new task route
 router.post("/tasks/new", (req, res, next) => {
-  let task = req.body.task;
-  let list_id = req.body.list_id;
-  let query = `insert into tasks (task, list_id) values ('${task}', ${list_id})`;
+  const user_id = req.session.user.id;
+  const task = req.body.task;
+  const list_id = req.body.list_id;
+  let query = `insert into tasks (user_id, task, list_id) values (${user_id}, '${task}', ${list_id})`;
   db.query(query, (err, result) => {
     if (err) throw err;
     resetTasks(res);

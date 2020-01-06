@@ -22,6 +22,16 @@ $(document).ready(() => {
             title="Timer"
           >
             <i class="fal fa-stopwatch"></i>
+            <i class="fal fa-pause"></i>
+          </button>
+          <button
+            data-id="${task.id}"
+            class="raise raise--light"
+            type="button"
+            name="add_time"
+            title="Add Time"
+          >
+            <i class="fal fa-clock"></i>
           </button>
           <button
             data-id="${task.id}"
@@ -159,5 +169,12 @@ $(document).ready(() => {
         tick();
       }, 1000);
     }
+  });
+  /*
+   * end of task time
+   */
+
+  $(document).on("click", "button[name=add_time]", function() {
+    $("#time-modal").show();
   });
 });

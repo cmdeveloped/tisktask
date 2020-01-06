@@ -19,15 +19,17 @@ h1, h2, h3, h4, h5, h6
   color: $dark
   margin: 0 0 0.5rem
 
+input
+  &:focus
+    outline: none
+
 button
   cursor: pointer
   border: none
   background-color: transparent
+  transition: 0.25s
   & + button
     margin-left: 0.5rem
-
-input, button
-  transition: 0.25s
   &:focus
     outline: none
     box-shadow: 0.1em 0.1em 0.2em rgba($light-300, 0.2), -0.1em -0.1em 0.2em rgba($white, 0.2)

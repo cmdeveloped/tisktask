@@ -29,6 +29,9 @@
                     <i class="fal fa-stopwatch"></i>
                     <i class="fal fa-pause"></i>
                   </button>
+                  <button data-id="{{id}}" class="raise raise--light" type="button" name="add_time" title="Add Time">
+                    <i class="fal fa-clock"></i>
+                  </button>
                   <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete">
                     <i class="fal fa-check-square"></i>
                   </button>
@@ -49,6 +52,19 @@
           {{/if}}
         </section>
       {{/each}}
+    </div>
+  </div>
+</div>
+
+{{!-- add-time modal --}}
+<div id="time-modal">
+  <div class="modal raise">
+    <h2>tisk task</h2>
+    <h1>add time</h1>
+    <div class="time">
+      <button class="raise raise--light" type="button" name="15min">15 m</button>
+      <button class="raise raise--light" type="button" name="30min">30 m</button>
+      <button class="raise raise--light" type="button" name="1hr">1 h</button>
     </div>
   </div>
 </div>
