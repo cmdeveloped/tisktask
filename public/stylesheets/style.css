@@ -48,71 +48,65 @@ button {
     .raise--light[type=button] {
       padding: 0.5rem; }
 
-.list--header {
-  text-align: center; }
-
-.list--subheading {
-  margin-bottom: 1rem; }
-
-.list--body {
-  padding: 1rem; }
-  .list--body section + section {
-    margin-top: 2rem; }
-
-.list--new-task {
-  margin-top: 0.5rem;
-  display: flex; }
-  .list--new-task input {
-    padding: 0.75rem 1rem;
-    background-color: transparent;
-    border: none;
-    width: 100%;
-    margin: 0; }
-    .list--new-task input::placeholder {
-      color: #58667c; }
-    .list--new-task input:focus {
-      outline: none; }
-  .list--new-task button {
-    flex-shrink: 0; }
-
-.list--task {
+#tasks {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  cursor: grab;
-  font-size: 12px;
-  transition: 0.25s; }
-  .list--task__options span {
-    display: inline-block;
-    margin-right: 0.5rem; }
-  .list--task__chosen {
-    cursor: grabbing;
-    opacity: 0.5; }
-
-.list--task + .list--task {
-  margin-top: 0.5rem; }
-
-#todo .timer, #todo button[name=timer], #todo button[name=add_time] {
-  display: none; }
-
-#in_progress button[started="0"] .fa-stopwatch {
-  display: inline-block; }
-
-#in_progress button[started="0"] .fa-pause {
-  display: none; }
-
-#in_progress button[started="1"] .fa-stopwatch {
-  display: none; }
-
-#in_progress button[started="1"] .fa-pause {
-  display: inline-block; }
-
-#complete .list--task__name {
-  text-decoration: line-through; }
-
-#complete button[name=timer], #complete button[name=complete], #complete button[name=due_date], #complete button[name=add_time] {
-  display: none; }
+  justify-content: center; }
+  #tasks .list {
+    width: 100%; }
+    #tasks .list--header {
+      text-align: center; }
+    #tasks .list--subheading {
+      margin-bottom: 1rem; }
+    #tasks .list--body {
+      padding: 1rem; }
+      #tasks .list--body section + section {
+        margin-top: 2rem; }
+    #tasks .list--new-task {
+      margin-top: 0.5rem;
+      display: flex; }
+      #tasks .list--new-task input {
+        padding: 0.75rem 1rem;
+        background-color: transparent;
+        border: none;
+        width: 100%;
+        margin: 0; }
+        #tasks .list--new-task input::placeholder {
+          color: #58667c; }
+        #tasks .list--new-task input:focus {
+          outline: none; }
+      #tasks .list--new-task button {
+        flex-shrink: 0; }
+    #tasks .list--task {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      cursor: grab;
+      font-size: 12px;
+      transition: 0.25s; }
+      #tasks .list--task__options span {
+        display: inline-block;
+        margin-right: 0.5rem; }
+      #tasks .list--task__chosen {
+        cursor: grabbing;
+        opacity: 0.5; }
+    #tasks .list--task + .list--task {
+      margin-top: 0.5rem; }
+  #tasks #todo .timer, #tasks #todo button[name=timer], #tasks #todo button[name=add_time] {
+    display: none; }
+  #tasks #in_progress button[started="0"] .fa-stopwatch {
+    display: inline-block; }
+  #tasks #in_progress button[started="0"] .fa-pause {
+    display: none; }
+  #tasks #in_progress button[started="1"] .fa-stopwatch {
+    display: none; }
+  #tasks #in_progress button[started="1"] .fa-pause {
+    display: inline-block; }
+  #tasks #complete .list--task__name {
+    text-decoration: line-through; }
+  #tasks #complete button[name=timer], #tasks #complete button[name=complete], #tasks #complete button[name=due_date], #tasks #complete button[name=add_time] {
+    display: none; }
 
 #auth, #verify {
   display: flex;

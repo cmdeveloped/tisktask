@@ -26,7 +26,15 @@ router.get("/", function(req, res, next) {
   // if user logged in, grab their tasks
   const user_id = user.id;
   db.query(
-    `select * from tasks where deleted_at is null and user_id = ${user_id}`,
+    `select
+    	ta.*,
+    	sec_to_time( sum( ( time_to_sec(ti.time ) ) ) ) as timer
+    from
+    	tasks ta
+    	LEFT JOIN timers ti ON ta.id = ti.task_id
+    where deleted_at is null
+    and user_id = ${user_id}
+    group by ta.id`,
     (err, rows) => {
       let todo = filterTasks(rows, "todo");
       let in_progress = filterTasks(rows, "in_progress");

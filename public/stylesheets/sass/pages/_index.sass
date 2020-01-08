@@ -1,63 +1,69 @@
-.list
-  &--header
-    text-align: center
-  &--subheading
-    margin-bottom: 1rem
-  &--body
-    padding: 1rem
-    section + section
-      margin-top: 2rem
-  &--new-task
-    margin-top: 0.5rem
-    display: flex
-    input
+#tasks
+  display: flex
+  align-items: center
+  justify-content: center
+
+  .list
+    width: 100%
+    &--header
+      text-align: center
+    &--subheading
+      margin-bottom: 1rem
+    &--body
+      padding: 1rem
+      section + section
+        margin-top: 2rem
+    &--new-task
+      margin-top: 0.5rem
+      display: flex
+      input
+        padding: 0.75rem 1rem
+        background-color: transparent
+        border: none
+        width: 100%
+        margin: 0
+        &::placeholder
+          color: $dark
+        &:focus
+          outline: none
+      button
+        flex-shrink: 0
+    &--task
+      display: flex
+      align-items: center
+      justify-content: space-between
       padding: 0.75rem 1rem
-      background-color: transparent
-      border: none
-      width: 100%
-      margin: 0
-      &::placeholder
-        color: $dark
-      &:focus
-        outline: none
-    button
-      flex-shrink: 0
-  &--task
-    display: flex
-    align-items: center
-    justify-content: space-between
-    padding: 0.75rem 1rem
-    cursor: grab
-    font-size: 12px
-    transition: 0.25s
-    &__options
-      span
+      cursor: grab
+      font-size: 12px
+      transition: 0.25s
+      &__options
+        span
+          display: inline-block
+          margin-right: 0.5rem
+      &__chosen
+        cursor: grabbing
+        opacity: 0.5
+    &--task + .list--task
+      margin-top: 0.5rem
+
+  #todo
+    .timer, button[name=timer], button[name=add_time]
+      display: none
+
+  #in_progress
+    button[started="0"]
+      .fa-stopwatch
         display: inline-block
-        margin-right: 0.5rem
-    &__chosen
-      cursor: grabbing
-      opacity: 0.5
-  &--task + &--task
-    margin-top: 0.5rem
+      .fa-pause
+        display: none
+    button[started="1"]
+      .fa-stopwatch
+        display: none
+      .fa-pause
+        display: inline-block
 
-#todo
-  .timer, button[name=timer], button[name=add_time]
-    display: none
-
-#in_progress
-  button[started="0"]
-    .fa-stopwatch
-      display: inline-block
-    .fa-pause
+  #complete
+    .list--task__name
+      text-decoration: line-through
+    button[name=timer], button[name=complete], button[name=due_date], button[name=add_time]
       display: none
-  button[started="1"]
-    .fa-stopwatch
-      display: none
-    .fa-pause
-      display: inline-block
-
-#complete
-  .list--task__name
-    text-decoration: line-through
-  button[name=timer], button[name=complete], button[name=due_date], button[name=add_time]
-    display: none

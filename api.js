@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { db } = require("./mysql");
+const moment = require("moment");
 
 // requery all tasks and return as json
 let resetTasks = res => {
@@ -15,9 +16,9 @@ let resetTasks = res => {
 
 // add new task route
 router.post("/tasks/new", (req, res, next) => {
-  const user_id = req.session.user.id;
-  const task = req.body.task;
-  const list_id = req.body.list_id;
+  let user_id = req.session.user.id;
+  let task = req.body.task;
+  let list_id = req.body.list_id;
   let query = `insert into tasks (user_id, task, list_id) values (${user_id}, '${task}', ${list_id})`;
   db.query(query, (err, result) => {
     if (err) throw err;
@@ -53,18 +54,40 @@ router.put("/tasks/complete/:id", (req, res) => {
 });
 
 // save task timer route
-router.put("/tasks/timer/:id", (req, res) => {
-  let task = req.params.id;
+router.post("/timer/:task_id", (req, res) => {
+  let task_id = req.params.task_id;
   let time = req.body.time;
+  const today = moment().format("YYYY-MM-DD");
   time = time.split(":").join("");
-  let query = `update tasks set timer = ${time} where id = ${task}`;
-  db.query(query, (err, result) => {
-    if (err) throw err;
-    res.json({
-      success: true,
-      message: "Successfully updated timer."
-    });
-  });
+  db.query(
+    `select * from timers where task_id = ${task_id} and created_at = current_date()`,
+    (err, result) => {
+      if (err) throw err;
+      if (result.length) {
+        db.query(
+          `update timers set time = '${time}' where task_id = ${task_id} and created_at = current_date()`,
+          (err, result) => {
+            if (err) throw err;
+            res.json({
+              success: true,
+              message: "Successfully updated timer."
+            });
+          }
+        );
+      } else {
+        db.query(
+          `insert into timers (task_id, time, created_at) values (${task_id}, '${time}', '${today}')`,
+          (err, result) => {
+            if (err) throw err;
+            res.json({
+              success: true,
+              message: `Successfully created daily timer for task ${task_id}`
+            });
+          }
+        );
+      }
+    }
+  );
 });
 
 // delete tasks route

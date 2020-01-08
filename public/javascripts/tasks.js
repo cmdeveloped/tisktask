@@ -151,8 +151,8 @@ $(document).ready(() => {
 
     const saveTaskTimer = time => {
       $.ajax({
-        method: "put",
-        url: `/api/tasks/timer/${task_id}`,
+        method: "post",
+        url: `/api/timer/${task_id}`,
         data: {
           time
         }
