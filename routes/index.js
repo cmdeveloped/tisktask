@@ -5,13 +5,15 @@ const moment = require("moment");
 
 // filter tasks by status and list index
 let filterTasks = (rows, status) => {
-  return rows
-    .filter(t => t.status === status)
-    .sort((a, b) => {
-      status === "complete"
-        ? a.completed_at - b.completed_at
-        : a.list_id - b.list_id;
-    });
+  let filtered = rows.filter(t => t.status === status);
+
+  let sorted = filtered.sort((a, b) => {
+    return status === "complete"
+      ? a.completed_at - b.completed_at
+      : a.list_id - b.list_id;
+  });
+
+  return sorted;
 };
 
 /* GET home page. */
@@ -49,6 +51,7 @@ router.get("/", function(req, res, next) {
         title: "tisk task",
         week,
         date: moment().format("dddd, MMMM DD"),
+        user_id,
         lists: {
           todo: {
             title: "Todo",

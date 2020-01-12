@@ -29,14 +29,24 @@ router.post("/tasks/new", (req, res, next) => {
 // update tasks route
 router.put("/tasks/update", (req, res) => {
   let tasks = req.body.tasks;
-  let values = JSON.parse(tasks).join(",");
-  let query = `insert into tasks (id, status, list_id, completed_at) values ${values} on duplicate key update status=values(status), list_id=values(list_id), completed_at=values(completed_at)`;
-  db.query(query, (err, result) => {
-    if (err) throw err;
-    res.json({
-      success: true,
-      message: "Successfully updated."
+  tasks = JSON.parse(tasks);
+
+  for (task of tasks) {
+    let query = `update tasks
+      set
+        status = '${task[1]}',
+        list_id = ${task[2]},
+        completed_at = ${task[3]}
+      where
+        id = ${task[0]}`;
+    db.query(query, (err, result) => {
+      if (err) throw err;
     });
+  }
+
+  res.json({
+    success: true,
+    message: "Successfully updated."
   });
 });
 
@@ -54,40 +64,93 @@ router.put("/tasks/complete/:id", (req, res) => {
 });
 
 // save task timer route
-router.post("/timer/:task_id", (req, res) => {
-  let task_id = req.params.task_id;
-  let time = req.body.time;
-  const today = moment().format("YYYY-MM-DD");
-  time = time.split(":").join("");
-  db.query(
-    `select * from timers where task_id = ${task_id} and created_at = current_date()`,
-    (err, result) => {
-      if (err) throw err;
-      if (result.length) {
-        db.query(
-          `update timers set time = '${time}' where task_id = ${task_id} and created_at = current_date()`,
-          (err, result) => {
-            if (err) throw err;
-            res.json({
-              success: true,
-              message: "Successfully updated timer."
-            });
-          }
-        );
-      } else {
-        db.query(
-          `insert into timers (task_id, time, created_at) values (${task_id}, '${time}', '${today}')`,
-          (err, result) => {
-            if (err) throw err;
-            res.json({
-              success: true,
-              message: `Successfully created daily timer for task ${task_id}`
-            });
-          }
-        );
-      }
+// additional functions to easily calculate time and store in mysql
+const toTime = total => {
+  // pad time leading zeros
+  const pad = int => (`${int}`.length < 2 ? "0" + int : `${int}`);
+
+  // total is in seconds
+  let hrs = Math.floor(total / 3600);
+  hrs = pad(hrs);
+
+  const minToSecs = total - hrs * 3600;
+  let mins = Math.floor(minToSecs / 60);
+  mins = pad(mins);
+
+  let secs = minToSecs % 60;
+  secs = pad(secs);
+
+  let time = hrs + mins + secs;
+  return time;
+};
+
+const toSeconds = time => moment.duration(time).asSeconds();
+
+router.post("/timer/:task_id", async (req, res) => {
+  try {
+    const today = moment().format("YYYY-MM-DD");
+    let task_id = req.params.task_id;
+    let time = req.body.time;
+    time = toSeconds(time);
+
+    /*
+     * past time scenarios to account for
+     * new task - no time
+     * update task - no previous time
+     * update task - previous time
+     */
+    let pastTime = await db.query(
+      `select
+        task_id,
+        sec_to_time( sum( time_to_sec(time) ) ) as time,
+        max(created_at) as past
+      from timers
+      where task_id = ${task_id}
+      and created_at < '${today}'
+      having time`
+    );
+    pastTime = pastTime.length ? pastTime[0].time : false;
+    // subtract past time if applicable
+    if (pastTime) {
+      time = time - toSeconds(pastTime);
     }
-  );
+    // format time
+    time = toTime(time);
+
+    //  determine if we have a timer entry for the task today
+    let timerToday = await db.query(
+      `select * from timers where task_id = ${task_id} and created_at = current_date()`
+    );
+    timerToday = timerToday.length ? true : false;
+
+    // if we have a timer today, update the row
+    if (timerToday) {
+      db.query(
+        `update timers set time = '${time}' where task_id = ${task_id} and created_at = current_date()`,
+        (err, results) => {
+          if (err) throw err;
+          res.json({
+            success: true,
+            message: "Successfully updated timer."
+          });
+        }
+      );
+    } else {
+      // if this is the first timer of the day, insert
+      db.query(
+        `insert into timers (task_id, time, created_at) values (${task_id}, '${time}', '${today}')`,
+        (err, result) => {
+          if (err) throw err;
+          res.json({
+            success: true,
+            message: `Successfully created daily timer for task ${task_id}`
+          });
+        }
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // delete tasks route

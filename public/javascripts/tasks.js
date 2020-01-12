@@ -16,6 +16,7 @@ $(document).ready(() => {
           <span class="timer"></span>
           <button
             data-id="${task.id}"
+            started="0"
             class="raise raise--light"
             type="button"
             name="timer"
@@ -125,24 +126,41 @@ $(document).ready(() => {
    */
   let setTimer;
   let time;
+
+  const toTime = total => {
+    // pad time leading zeros
+    const pad = int => (`${int}`.length < 2 ? "0" + int : int);
+
+    // total is in seconds
+    let hrs = Math.floor(total / 3600);
+    hrs = pad(hrs);
+
+    const minToSecs = total - hrs * 3600;
+    let mins = Math.floor(minToSecs / 60);
+    mins = pad(mins);
+
+    let secs = minToSecs % 60;
+    secs = pad(secs);
+
+    let time = `${hrs}:${mins}:${secs}`;
+    return time;
+  };
+
   $(document).on("click", "button[name=timer]", function() {
     const that = $(this);
     const task_id = that.data("id");
-    const timer = $(`.list--task[data-id=${task_id}]`)
+    let started = +that.attr("started");
+    let timer = $(`.list--task[data-id=${task_id}]`)
       .find(".timer")
       .text();
-    let started = +that.attr("started");
+    timer = $.trim(timer);
 
-    let seconds = moment.duration($.trim(timer)).asSeconds();
-    let date = new Date();
+    let seconds = moment.duration(timer).asSeconds();
 
     const tick = () => {
       seconds++;
       // construct readable time from seconds
-      time = moment(date)
-        .startOf("day")
-        .seconds(seconds)
-        .format("HH:mm:ss");
+      time = toTime(seconds);
 
       $(`.list--task[data-id=${task_id}]`)
         .find(".timer")
@@ -174,7 +192,24 @@ $(document).ready(() => {
    * end of task time
    */
 
+  /*
+   * Add time modal
+   */
+  // hide modal if overlay click
+  $("#time-modal").on("click", function(e) {
+    let id = e.target.id;
+    id === "time-modal" ? $(this).addClass("hide") : false;
+  });
+
   $(document).on("click", "button[name=add_time]", function() {
-    $("#time-modal").show();
+    const modal = $("#time-modal");
+    let task_id = $(this).data("id");
+    let time = $(`.list--task[data-id=${task_id}]`)
+      .find(".timer")
+      .text();
+    time = $.trim(time);
+    modal.find(".time span").text(time);
+
+    modal.removeClass("hide");
   });
 });

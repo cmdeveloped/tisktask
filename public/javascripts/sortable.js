@@ -18,7 +18,8 @@ $(document).ready(() => {
                 )}'`
               : null
             : null;
-          tasks.push(`( ${id}, '${status}', ${list_id}, ${completed_at} )`);
+          // null value in 1st index is `user_id`
+          tasks.push([id, status, list_id, completed_at]);
         });
     };
 

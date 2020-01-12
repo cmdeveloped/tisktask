@@ -2,6 +2,7 @@ const dotenv = require("dotenv").config();
 const mysql = require("mysql");
 const cron = require("node-cron");
 const moment = require("moment");
+const util = require("util");
 const creds =
   process.env.NODE_ENV === "production"
     ? process.env.JAWSDB_URL
@@ -13,7 +14,8 @@ const creds =
       };
 
 // mysql connection created
-const db = mysql.createConnection(creds);
+let db = mysql.createConnection(creds);
+db.query = util.promisify(db.query);
 
 db.connect(err => {
   if (err) throw err;
