@@ -1,0 +1,27 @@
+{
+  "client": {
+    "status": {
+      "title": "",
+      "tasks": [],
+      "form": true
+    },
+    "status": {
+      "title": "",
+      "tasks": []
+    },
+    "status": {
+      "title": "",
+      "tasks": []
+    }
+  }
+
+  /*
+   * Repeat the data structure for each client
+   *
+   * group by clients
+   * for each client, set a list key, value pair by grouping by "status"
+   * combine tasks for each status into key, valiue pair "tasks"
+   * set title key value pair to respective display value
+   * set form key value to true on "todo" status
+   */
+}
