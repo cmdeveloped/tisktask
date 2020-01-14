@@ -1,11 +1,11 @@
 $(document).ready(() => {
-  const lists = $(".list--tasks");
+  const clients = $(".list--container");
 
-  const updateTasks = (to, from) => {
+  const updateTasks = (client_id, to, from) => {
     let tasks = [];
 
     const addTasks = list => {
-      $(`#${list}`)
+      $(`.list--tasks[data-list=${list}]`)
         .find(".list--task")
         .map((idx, task) => {
           let id = $(task).data("id");
@@ -38,26 +38,35 @@ $(document).ready(() => {
         tasks: JSON.stringify(tasks)
       }
     }).done(res => {
-      $("#todo, #in_progress")
-        .find(".list--task")
+      $(`#${client_id}`)
+        .find(
+          ".list--tasks[data-list=todo], .list--tasks[data-list=in_progress]"
+        )
         .each(function() {
           $(this).attr("data-complete", "");
         });
     });
   };
 
-  for (list of lists) {
-    let id = $(list).attr("id");
-    let put = id === "complete" ? false : true;
+  let listIndex = 0;
+  clients.map((idx, c) => {
+    let client_id = $(c).attr("id");
+    let lists = $(c).find(".list--tasks");
 
-    Sortable.create(list, {
-      group: { name: "tasks", put },
-      chosenClass: "list--task__chosen",
-      onEnd: evt => {
-        let to = $(evt.to).attr("id");
-        let from = $(evt.from).attr("id");
-        updateTasks(to, from);
-      }
+    lists.map((idx, l) => {
+      let id = $(l).data("list");
+      let put = id === "complete" ? false : true;
+
+      Sortable.create(l, {
+        group: { name: `tasks-${listIndex}`, put },
+        chosenClass: "list--task__chosen",
+        onEnd: evt => {
+          let to = $(evt.to).data("list");
+          let from = $(evt.from).data("list");
+          updateTasks(client_id, to, from);
+        }
+      });
     });
-  }
+    listIndex++;
+  });
 });

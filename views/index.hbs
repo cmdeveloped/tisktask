@@ -14,7 +14,7 @@
           {{#each lists}}
             <section class="list--{{@key}}">
               <h3 class="list--subheading">{{title}}</h3>
-              <div class="list--tasks {{@key}}">
+              <div class="list--tasks" data-list="{{@key}}">
                 {{#each tasks}}
                   <div
                     data-id="{{id}}"
@@ -37,7 +37,7 @@
                       <button data-id="{{id}}" class="raise raise--light" type="button" name="add_time" title="Add Time">
                         <i class="fal fa-clock"></i>
                       </button>
-                      <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete">
+                      <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete" data-client="{{client_id}}">
                         <i class="fal fa-check-square"></i>
                       </button>
                       <button data-id="{{id}}" class="raise raise--light" type="button" name="delete" title="Delete">
