@@ -134,8 +134,12 @@ $(document).ready(() => {
   /*
    * Start task timer
    */
+  // unique variables to track multiple timers
   let setTimer;
-  let time;
+  let time = {};
+  let seconds = {};
+  let task_ids = [];
+  let timerStarted = false;
 
   const toTime = total => {
     // pad time leading zeros
@@ -156,6 +160,19 @@ $(document).ready(() => {
     return time;
   };
 
+  const tick = task_ids => {
+    task_ids.map(task => {
+      let taskSecs = +seconds[task];
+      _.set(seconds, task, taskSecs + 1);
+      // construct readable time from seconds
+      _.set(time, task, toTime(taskSecs));
+
+      $(`.list--task[data-id=${task}]`)
+        .find(".timer")
+        .text(time[task]);
+    });
+  };
+
   $(document).on("click", "button[name=timer]", function() {
     const that = $(this);
     const task_id = that.data("id");
@@ -165,17 +182,8 @@ $(document).ready(() => {
       .text();
     timer = $.trim(timer);
 
-    let seconds = moment.duration(timer).asSeconds();
-
-    const tick = () => {
-      seconds++;
-      // construct readable time from seconds
-      time = toTime(seconds);
-
-      $(`.list--task[data-id=${task_id}]`)
-        .find(".timer")
-        .text(time);
-    };
+    // set seconds object to have task id seconds
+    _.set(seconds, task_id, moment.duration(timer).asSeconds());
 
     const saveTaskTimer = time => {
       $.ajax({
@@ -187,15 +195,26 @@ $(document).ready(() => {
       });
     };
 
+    // check if this task was active
     if (started) {
       that.attr("started", "0");
-      clearInterval(setTimer);
-      saveTaskTimer(time);
+      _.remove(task_ids, id => id === task_id);
+      saveTaskTimer(time[task_id]);
     } else {
       that.attr("started", "1");
+      task_ids.push(task_id);
+    }
+
+    // begin our interval if we haven't started already and we have tasks
+    if (task_ids.length === 1 && !timerStarted) {
       setTimer = setInterval(function() {
-        tick();
+        tick(task_ids);
       }, 1000);
+      timerStarted = true;
+    } else if (!task_ids.length) {
+      console.log("should stop timer");
+      clearInterval(setTimer);
+      timerStarted = false;
     }
   });
   /*
