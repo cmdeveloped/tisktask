@@ -2,11 +2,11 @@ $(document).ready(() => {
   /*
    * New task
    */
-  let resetNewTask = () => {
-    $("#new-task")[0].reset();
+  let resetNewTask = form => {
+    form[0].reset();
   };
 
-  let appendNewTask = task => {
+  let appendNewTask = (client_id, task) => {
     let newTask = `
       <div data-id="${task.id}" class="list--task raise raise--light">
         <div class="list--task__name">
@@ -55,25 +55,32 @@ $(document).ready(() => {
         </div>
       </div>
     `;
-    $(".list--todo .list--tasks").append(newTask);
+    $(`#client-${client_id}`)
+      .find(".list--todo .list--tasks")
+      .append(newTask);
   };
 
-  $("#new-task").submit(function(e) {
+  $("form.list--new-task").submit(function(e) {
     e.preventDefault();
-    let task = $("input[name=task]").val();
-    let list_id = $(".list--in-progress").find(".list--task").length;
+    let that = $(this);
+    let client_id = that.data("client");
+    let task = that.find("input[name=task]").val();
+    let list_id = $(`#client-${client_id}`)
+      .find(".list--in-progress")
+      .find(".list--task").length;
 
     if (task) {
       $.ajax({
         method: "post",
         url: "/api/tasks/new",
         data: {
+          client_id,
           task,
           list_id
         }
       }).done(task => {
-        appendNewTask(task);
-        resetNewTask();
+        appendNewTask(client_id, task);
+        resetNewTask(that);
       });
     }
   });

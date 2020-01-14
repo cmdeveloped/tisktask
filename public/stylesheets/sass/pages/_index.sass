@@ -2,9 +2,14 @@
   display: flex
   align-items: center
   justify-content: center
+  width: 100%
 
   .list
     width: 100%
+    &--container
+      max-width: 50%
+      width: 100%
+      padding: 0 1rem
     &--header
       text-align: center
     &--subheading
@@ -46,24 +51,24 @@
     &--task + .list--task
       margin-top: 0.5rem
 
-  #todo
-    button[name=timer], button[name=add_time]
-      display: none
-
-  #in_progress
-    button[started="0"]
-      .fa-stopwatch
-        display: inline-block
-      .fa-pause
+    &--todo
+      button[name=timer], button[name=add_time]
         display: none
-    button[started="1"]
-      .fa-stopwatch
-        display: none
-      .fa-pause
-        display: inline-block
 
-  #complete
-    .list--task__name
-      text-decoration: line-through
-    button[name=timer], button[name=complete], button[name=due_date], button[name=add_time]
-      display: none
+    &--in_progress
+      button[started="0"]
+        .fa-stopwatch
+          display: inline-block
+        .fa-pause
+          display: none
+      button[started="1"]
+        .fa-stopwatch
+          display: none
+        .fa-pause
+          display: inline-block
+
+    &--complete
+      .list--task__name
+        text-decoration: line-through
+      button[name=timer], button[name=complete], button[name=due_date], button[name=add_time]
+        display: none

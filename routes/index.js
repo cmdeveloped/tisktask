@@ -39,17 +39,11 @@ router.get("/", async (req, res, next) => {
 
     Object.keys(data).map(client => {
       // group client tasks by status
+      let client_id = _.get(data[client], "[0].client_id");
       data[client] = _.groupBy(data[client], "status");
-      // make sure we have all of statuses we need for templating
-      data[client] = {
-        todo: { tasks: data[client]["todo"] || [] },
-        in_progress: { tasks: data[client]["in_progress"] || [] },
-        complete: { tasks: data[client]["complete"] || [] }
-      };
-      // make sure to show form on todo
-      data[client]["todo"].form = true;
+
       // set proper titles
-      Object.keys(data[client]).map(status => {
+      const properTitle = status => {
         let title = status
           .split("_")
           .map(s => {
@@ -57,8 +51,28 @@ router.get("/", async (req, res, next) => {
           })
           .join(" ");
 
-        data[client][status].title = title;
-      });
+        return title;
+      };
+      // make sure we have all of statuses we need for templating
+      // set array to tasks
+      data[client] = {
+        client_id,
+        lists: {
+          todo: {
+            title: properTitle("todo"),
+            tasks: data[client]["todo"] || [],
+            form: true
+          },
+          in_progress: {
+            title: properTitle("in_progress"),
+            tasks: data[client]["in_progress"] || []
+          },
+          complete: {
+            title: properTitle("complete"),
+            tasks: data[client]["complete"] || []
+          }
+        }
+      };
     });
 
     let week = `${moment()

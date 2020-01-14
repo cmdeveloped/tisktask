@@ -53,9 +53,14 @@ button {
 #tasks {
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  width: 100%; }
   #tasks .list {
     width: 100%; }
+    #tasks .list--container {
+      max-width: 50%;
+      width: 100%;
+      padding: 0 1rem; }
     #tasks .list--header {
       text-align: center; }
     #tasks .list--subheading {
@@ -95,20 +100,20 @@ button {
         opacity: 0.5; }
     #tasks .list--task + .list--task {
       margin-top: 0.5rem; }
-  #tasks #todo button[name=timer], #tasks #todo button[name=add_time] {
-    display: none; }
-  #tasks #in_progress button[started="0"] .fa-stopwatch {
-    display: inline-block; }
-  #tasks #in_progress button[started="0"] .fa-pause {
-    display: none; }
-  #tasks #in_progress button[started="1"] .fa-stopwatch {
-    display: none; }
-  #tasks #in_progress button[started="1"] .fa-pause {
-    display: inline-block; }
-  #tasks #complete .list--task__name {
-    text-decoration: line-through; }
-  #tasks #complete button[name=timer], #tasks #complete button[name=complete], #tasks #complete button[name=due_date], #tasks #complete button[name=add_time] {
-    display: none; }
+    #tasks .list--todo button[name=timer], #tasks .list--todo button[name=add_time] {
+      display: none; }
+    #tasks .list--in_progress button[started="0"] .fa-stopwatch {
+      display: inline-block; }
+    #tasks .list--in_progress button[started="0"] .fa-pause {
+      display: none; }
+    #tasks .list--in_progress button[started="1"] .fa-stopwatch {
+      display: none; }
+    #tasks .list--in_progress button[started="1"] .fa-pause {
+      display: inline-block; }
+    #tasks .list--complete .list--task__name {
+      text-decoration: line-through; }
+    #tasks .list--complete button[name=timer], #tasks .list--complete button[name=complete], #tasks .list--complete button[name=due_date], #tasks .list--complete button[name=add_time] {
+      display: none; }
 
 #auth, #verify {
   display: flex;

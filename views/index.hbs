@@ -1,59 +1,63 @@
-<div id="tasks" class="container">
+<div id="tasks">
   {{#each data}}
-    <div class="list raise">
-      <div class="list--header">
-        <h1>my tasks</h1>
-        <h2>{{@key}}</h2>
-        <h4>{{../date}}</h4>
-        <h5>{{../week}}</h5>
-      </div>
-      <div class="list--body">
-        {{#each this}}
-          <section class="list--{{@key}}">
-            <h3 class="list--subheading">{{title}}</h3>
-            <div class="list--tasks" id="{{@key}}">
-              {{#each tasks}}
-                <div
-                  data-id="{{id}}"
-                  data-complete="{{completed_at}}"
-                  class="list--task raise raise--light"
-                >
-                  <div class="list--task__name">
-                    {{task}}
+    {{#with this as |client|}}
+      <div class="list--container" id="client-{{client_id}}">
+    {{/with}}
+      <div class="list raise">
+        <div class="list--header">
+          <h1>my tasks</h1>
+          <h2>{{@key}}</h2>
+          <h4>{{../date}}</h4>
+          <h5>{{../week}}</h5>
+        </div>
+        <div class="list--body">
+          {{#each lists}}
+            <section class="list--{{@key}}">
+              <h3 class="list--subheading">{{title}}</h3>
+              <div class="list--tasks {{@key}}">
+                {{#each tasks}}
+                  <div
+                    data-id="{{id}}"
+                    data-complete="{{completed_at}}"
+                    class="list--task raise raise--light"
+                  >
+                    <div class="list--task__name">
+                      {{task}}
+                    </div>
+                    <div class="list--task__options">
+                      <span class="timer">
+                        {{#if timer}}
+                          {{timer}}
+                        {{/if}}
+                      </span>
+                      <button data-id="{{id}}" started="0" class="raise raise--light" type="button" name="timer" title="Timer">
+                        <i class="fal fa-stopwatch"></i>
+                        <i class="fal fa-pause"></i>
+                      </button>
+                      <button data-id="{{id}}" class="raise raise--light" type="button" name="add_time" title="Add Time">
+                        <i class="fal fa-clock"></i>
+                      </button>
+                      <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete">
+                        <i class="fal fa-check-square"></i>
+                      </button>
+                      <button data-id="{{id}}" class="raise raise--light" type="button" name="delete" title="Delete">
+                        <i class="fal fa-trash"></i>
+                      </button>
+                    </div>
                   </div>
-                  <div class="list--task__options">
-                    <span class="timer">
-                      {{#if timer}}
-                        {{timer}}
-                      {{/if}}
-                    </span>
-                    <button data-id="{{id}}" started="0" class="raise raise--light" type="button" name="timer" title="Timer">
-                      <i class="fal fa-stopwatch"></i>
-                      <i class="fal fa-pause"></i>
-                    </button>
-                    <button data-id="{{id}}" class="raise raise--light" type="button" name="add_time" title="Add Time">
-                      <i class="fal fa-clock"></i>
-                    </button>
-                    <button data-id="{{id}}" class="raise raise--light" type="button" name="complete" title="Complete">
-                      <i class="fal fa-check-square"></i>
-                    </button>
-                    <button data-id="{{id}}" class="raise raise--light" type="button" name="delete" title="Delete">
-                      <i class="fal fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              {{/each}}
-            </div>
-            {{#if form}}
-              <form id="new-task" class="list--new-task">
-                <input type="text" name="task" value="" placeholder="Add a New Task">
-                <button class="raise raise--light" type="submit" name="button">
-                  <i class="fal fa-plus-square"></i>
-                </button>
-              </form>
-            {{/if}}
-          </section>
-        {{/each}}
+                {{/each}}
+              </div>
+              {{#if form}}
+                <form class="list--new-task" data-client="{{../client_id}}">
+                  <input type="text" name="task" value="" placeholder="Add a New Task">
+                  <button class="raise raise--light" type="submit" name="button">
+                    <i class="fal fa-plus-square"></i>
+                  </button>
+                </form>
+              {{/if}}
+            </section>
+          {{/each}}
+        </div>
       </div>
     </div>
   {{/each}}
