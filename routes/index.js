@@ -54,22 +54,27 @@ router.get("/", async (req, res, next) => {
         return title;
       };
       // make sure we have all of statuses we need for templating
+      const sortTasks = tasks => {
+        tasks = tasks ? tasks : [];
+        return tasks.sort((a, b) => a.list_id - b.list_id);
+      };
+
       // set array to tasks
       data[client] = {
         client_id,
         lists: {
           todo: {
             title: properTitle("todo"),
-            tasks: data[client]["todo"] || [],
+            tasks: sortTasks(data[client]["todo"]),
             form: true
           },
           in_progress: {
             title: properTitle("in_progress"),
-            tasks: data[client]["in_progress"] || []
+            tasks: sortTasks(data[client]["in_progress"])
           },
           complete: {
             title: properTitle("complete"),
-            tasks: data[client]["complete"] || []
+            tasks: sortTasks(data[client]["complete"])
           }
         }
       };

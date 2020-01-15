@@ -115,16 +115,17 @@ $(document).ready(() => {
    * Complete task
    */
   $(document).on("click", "button[name=complete]", function() {
-    let client_id = $(this).data("client_id");
+    let client_id = $(this).data("client");
     let task_id = $(this).data("id");
+    let completeList = $(`#client-${client_id}`).find(
+      ".list--complete .list--tasks"
+    )[0];
 
     $.ajax({
       method: "put",
       url: `/api/tasks/complete/${task_id}`
     }).done(res => {
-      $(`.list--task[data-id=${task_id}]`).prependTo(
-        $(`#client-${client_id}`).find(".list--complete")
-      );
+      $(`.list--task[data-id=${task_id}]`).prependTo(completeList);
     });
   });
   /*
