@@ -1,18 +1,21 @@
-{
-  "client": {
+[
+  {
+    "client_name": "",
     "client_id": 0,
-    "status": {
-      "title": "",
-      "tasks": [],
-      "form": true
-    },
-    "status": {
-      "title": "",
-      "tasks": []
-    },
-    "status": {
-      "title": "",
-      "tasks": []
+    "client_tasks": {
+      "status": {
+        "title": "",
+        "tasks": [],
+        "form": true
+      },
+      "status": {
+        "title": "",
+        "tasks": []
+      },
+      "status": {
+        "title": "",
+        "tasks": []
+      }
     }
   }
 
@@ -25,4 +28,4 @@
    * set title key value pair to respective display value
    * set form key value to true on "todo" status
    */
-}
+]

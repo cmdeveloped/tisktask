@@ -18,11 +18,26 @@ router.get("/", async (req, res, next) => {
     const user_id = user.id;
 
     // get all tasks and clients
-    let data = await db.query(
+    let userClients = await db.query(
+      `select * from clients where user_id = ${user_id}`
+    );
+    userClients = _.chain(userClients)
+      .groupBy("name")
+      .map((value, key) => ({
+        client_name: key,
+        client_id: value[0].id,
+        client_tasks: {}
+      }))
+      .value();
+
+    let userTasks = await db.query(
       `select
-        c.user_id,
-        c.name AS client_name,
-        ta.*,
+        c.name as client_name,
+        ta.id as task_id,
+        ta.task,
+        ta.status,
+        ta.list_id,
+        ta.completed_at,
         sec_to_time(sum(time_to_sec(ti.time))) as timer
       from
         tasks ta
@@ -34,52 +49,43 @@ router.get("/", async (req, res, next) => {
       group by
         ta.id`
     );
+    userTasks = _.groupBy(userTasks, "client_name");
 
-    data = _.groupBy(data, "client_name");
+    // used to sort tasks once sorted
+    const sortTasks = tasks => {
+      tasks = tasks ? tasks : [];
+      return tasks.sort((a, b) => a.list_id - b.list_id);
+    };
 
-    Object.keys(data).map(client => {
-      // group client tasks by status
-      let client_id = _.get(data[client], "[0].client_id");
-      data[client] = _.groupBy(data[client], "status");
+    const properTitle = status => {
+      return status
+        .split("_")
+        .map(each => each.charAt(0).toUpperCase() + each.slice(1))
+        .join(" ");
+    };
 
-      // set proper titles
-      const properTitle = status => {
-        let title = status
-          .split("_")
-          .map(s => {
-            return s.charAt(0).toUpperCase() + s.slice(1);
-          })
-          .join(" ");
+    Object.keys(userClients).map((client, idx) => {
+      let statuses = ["todo", "in_progress", "complete"];
+      let tasksByStatus = _.groupBy(userTasks[client], "status");
+      statuses.map(status => {
+        let sortedTasks = tasksByStatus[status]
+          ? sortTasks(tasksByStatus[status])
+          : [];
+        tasksByStatus[status] = {
+          title: properTitle(status),
+          tasks: sortedTasks
+        };
+        tasksByStatus[status].form = status === "todo" ? true : false;
+      });
 
-        return title;
-      };
-      // make sure we have all of statuses we need for templating
-      const sortTasks = tasks => {
-        tasks = tasks ? tasks : [];
-        return tasks.sort((a, b) => a.list_id - b.list_id);
-      };
-
-      // set array to tasks
-      data[client] = {
-        client_id,
-        lists: {
-          todo: {
-            title: properTitle("todo"),
-            tasks: sortTasks(data[client]["todo"]),
-            form: true
-          },
-          in_progress: {
-            title: properTitle("in_progress"),
-            tasks: sortTasks(data[client]["in_progress"])
-          },
-          complete: {
-            title: properTitle("complete"),
-            tasks: sortTasks(data[client]["complete"])
-          }
-        }
+      userClients[idx].client_tasks = {
+        todo: tasksByStatus["todo"],
+        in_progress: tasksByStatus["in_progress"],
+        complete: tasksByStatus["complete"]
       };
     });
 
+    let data = userClients;
     let week = `${moment()
       .startOf("week")
       .format("MMM DD")} - ${moment()

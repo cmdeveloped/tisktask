@@ -24,7 +24,7 @@ router.get("/", (req, res, next) => {
 });
 
 // '/register/verify' router — register form submission
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const userEmail = req.body["email"];
   const userPass = req.body["new-password"];
   // generate a random 6 digit Verification code
@@ -33,28 +33,29 @@ router.post("/", (req, res, next) => {
     charset: "numeric"
   });
 
+  // check if we already have a user with that email address
+  await db.query(
+    `select id, email from users where email = '${userEmail}'`,
+    (err, result) => {
+      if (err) throw err;
+      if (result.length) {
+        res.render("auth", {
+          auth: 0,
+          error: "This email address is already in use."
+        });
+      }
+    }
+  );
+
   // encrypt user password and store user data with auth code
   bcrypt.hash(userPass, 10, function(err, hash) {
     if (err) throw err;
     db.query(
-      `select id, email from users where email = '${userEmail}'`,
+      `insert into users (email, password, auth_code) values ('${userEmail}', '${hash}', '${code}')`,
       (err, result) => {
         if (err) throw err;
-        if (result.length) {
-          res.render("auth", {
-            auth: 0,
-            error: "This email address is already in use."
-          });
-        } else {
-          db.query(
-            `insert into users (email, password, auth_code) values ('${userEmail}', '${hash}', '${code}')`,
-            (err, result) => {
-              if (err) throw err;
-              req.session.user = { id: responseId, email: userEmail };
-              console.log("New user has been added.");
-            }
-          );
-        }
+        req.session.user = { id: responseId, email: userEmail };
+        console.log("New user has been added.");
       }
     );
   });

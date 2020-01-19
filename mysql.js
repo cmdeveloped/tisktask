@@ -2,6 +2,7 @@ const dotenv = require("dotenv").config();
 const mysql = require("mysql");
 const cron = require("node-cron");
 const moment = require("moment");
+const bcrypt = require("bcrypt");
 const util = require("util");
 const creds =
   process.env.NODE_ENV === "production"
@@ -49,7 +50,37 @@ cron.schedule("0 0 * * *", () => {
   );
 });
 
+const hashPasswords = async () => {
+  try {
+    await db.query(
+      `select * from users where password not like "$2b$%"`,
+      (err, results) => {
+        if (err) throw err;
+        // if we have unencrypted passwords, do something about that
+        if (results.length) {
+          results.map(user => {
+            let { id, password } = user;
+            bcrypt.hash(password, 10, async (err, hash) => {
+              if (err) throw err;
+              await db.query(
+                `update users set password = '${hash}' where id = ${id}`,
+                (err, result) => {
+                  if (err) throw err;
+                  console.log(`Password for ${id} has been hashed.`);
+                }
+              );
+            });
+          });
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 module.exports = {
+  hashPasswords,
   cron,
   db
 };
